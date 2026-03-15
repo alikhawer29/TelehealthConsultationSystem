@@ -1,0 +1,29 @@
+8.	For the wellxa at home slot management, it should be for the parent category and not subcategory, like its done on IV Drips. First image shows slots for physiotherapy and the second image shows slots for IV Drips. 
+
+Slot management (the ability to define or manage available booking times)
+should be configured at the parent category level, not for each subcategory.
+
+If you set slots for Physiotherapy (parent) → all subcategories under it should share those same slots.
+
+You should not have to separately set slots for Home Physio, Sports Physio, etc.
+
+Example
+❌ Current (wrong way)
+
+You create slots for:
+
+Home Physio → 9 AM – 5 PM
+
+Sports Physio → 10 AM – 6 PM
+
+Post-Surgery Physio → 8 AM – 4 PM
+
+You’re doing it for each subcategory individually.
+
+✅ Expected (correct way)
+
+You create slots once under Physiotherapy (parent) → e.g., 9 AM – 5 PM
+
+All subcategories (Home Physio, Sports Physio, etc.) automatically use those same slots.
+
+“Slot management should be linked to the parent service category, not its subcategories — just like how it already works for IV Drips.”

@@ -1,0 +1,14 @@
+<?php
+
+namespace {{ namespace }};
+use App\Core\Abstracts\Filters;
+
+class {{ class }} extends Filters {
+
+    protected $filters = ['search'];
+
+    public function search($value)
+    {
+        $this->builder->where("status", $value);
+    }
+}

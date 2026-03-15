@@ -1,0 +1,11 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\Core\Abstracts\Filters;
+use Illuminate\Database\Eloquent\Model;
+
+interface {{ contract }}
+{
+    
+}

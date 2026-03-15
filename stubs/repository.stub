@@ -1,0 +1,13 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ contractNamespace }};
+use App\Core\Abstracts\Filters;
+use App\Core\Abstracts\Repository\BaseRepository;
+use Illuminate\Database\Eloquent\Model;
+
+class {{ class }} extends BaseRepository implements {{ contract }}
+{
+    
+}

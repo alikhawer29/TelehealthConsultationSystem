@@ -1,0 +1,118 @@
+<?php
+
+namespace App\Filters\Doctor;
+
+use App\Core\Abstracts\Filters;
+
+class AppointmentFilters extends Filters
+{
+
+    protected $filters = [
+        'search',
+        'status',
+        'gender',
+        'sortBy',
+        'appointment_type',
+        'to',
+        'from',
+        'service_type',
+        'appointment_status',
+        'owner',
+        'appointment_status',
+        'payment_status',
+        'session_type',
+        'appointment_from_date',
+        'appointment_to_date'
+    ];
+
+    public function service_type($value)
+    {
+
+        if ($value === 'lab') {
+            $this->builder->where(function ($query) {
+                $query->where('service_type', 'lab');
+                $query->orwhere('service_type', 'lab_bundle');
+                $query->orwhere('service_type', 'lab_custom');
+            });
+        } else {
+            $this->builder->where("service_type", $value);
+        }
+    }
+
+    public function session_type($value)
+    {
+        $this->builder->where("session_type", $value);
+    }
+
+    public function payment_status($value)
+    {
+        $this->builder->where("payment_status", $value);
+    }
+
+
+    public function owner($value)
+    {
+        $user = request()->user();
+        $id = $user->id;
+        $this->builder->where("bookable_id", $id)->where('bookable_type', 'App\Models\User');
+    }
+
+    public function status($value)
+    {
+        $this->builder->where('status', '!=', 'pending');
+
+        if ($value === 'scheduled') {
+            $this->builder->whereIn('status', ['scheduled', 'requested']);
+        } else {
+            $this->builder->where('status', $value);
+        }
+    }
+
+
+    public function appointment_status($value)
+    {
+        $this->builder->where("appointment_status", $value);
+    }
+    public function sortBy($value)
+    {
+        $this->builder->orderBy('id', 'desc');
+    }
+    public function appointment_type($value)
+    {
+        $this->builder->where("type", $value);
+    }
+
+    public function search($value)
+    {
+        $this->builder->where(function ($q) use ($value) {
+            $q->where('booking_id', 'like', '%' . $value . '%');
+            $q->orWhere('amount', 'like', '%' . $value . '%');
+            $q->orWhereIn('bookable_id', function ($subQuery) use ($value) {
+                $subQuery->select('id')
+                    ->from('users')
+                    ->where('first_name', 'like', "%$value%");
+            });
+            $q->orWhereIn('user_id', function ($subQuery) use ($value) {
+                $subQuery->select('id')
+                    ->from('users')
+                    ->where('first_name', 'like', "%$value%");
+            });
+        });
+    }
+    public function to($value)
+    {
+        $this->builder->whereDate('created_at', '<=', $value);
+    }
+    public function from($value)
+    {
+        $this->builder->whereDate('created_at', '>=', $value);
+    }
+    public function appointment_to_date($value)
+    {
+        $this->builder->whereDate('appointment_date', '<=', $value);
+    }
+    public function appointment_from_date($value)
+    {
+        $this->builder->whereDate('appointment_date', '>=', $value);
+    }
+}
